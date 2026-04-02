@@ -1,12 +1,15 @@
+//Importing Pages
+import { BrowserRouter } from "react-router-dom";
+import Register from "./Pages/RegisterPage";
 
 function App() {
-
-
   return (
     <>
-      <div>Frontend Running</div>
+      <BrowserRouter>
+        <Register />
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
