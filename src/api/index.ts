@@ -8,3 +8,12 @@ export const authApi = {
   login: (data: { email: string; password: string }) =>
     api.post("/auth/login", data),
 };
+
+export const documentApi = {
+  getAll: () => api.get("/documents"),
+  create: (data?: { title?: string }) => api.post("/documents", data || {}),
+  getById: (id: string) => api.get(`/documents/${id}`),
+  update: (id: string, data: { title: string }) =>
+    api.put(`/documents/${id}`, data),
+  delete: (id: string) => api.delete(`/documents/${id}`),
+};

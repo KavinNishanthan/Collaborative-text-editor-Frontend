@@ -8,6 +8,8 @@ import { ProtectedRoute, PublicRoute } from "./Router/ProtectedRoute";
 // Importing Pages
 import Login from "./Pages/LoginPage";
 import Register from "./Pages/RegisterPage";
+import Dashboard from "./Pages/DashboardPage";
+
 
 export default function App() {
   return (
@@ -36,13 +38,10 @@ export default function App() {
 
         {/* Auth */}
         <Route element={<ProtectedRoute />}>
-          <Route
-            path='/dashboard'
-            element={<div>Welcome To COLLAB EDIT</div>}
-          />
+          <Route path='/dashboard' element={<Dashboard />} />
         </Route>
 
-        <Route path='*' element={<Navigate to='/' replace />} />
+        <Route path='*' element={<Navigate to='/login' replace />} />
       </Routes>
     </BrowserRouter>
   );
