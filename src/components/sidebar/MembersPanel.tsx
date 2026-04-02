@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { memberApi } from '../../api';
-import { getInitials } from '../../utils';
+import { getInitials } from "../../Utils";
 import { UserPlus, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { commentApi } from '../../api';
-import { getInitials, formatDate } from '../../utils';
+import { getInitials, formatDate } from "../../Utils";
 import { MessageSquare, CheckCircle, CornerDownRight, Send } from 'lucide-react';
 import toast from 'react-hot-toast';
 

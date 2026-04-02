@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Copy, Check, X, Share2, ExternalLink } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { sharingApi } from '../api';
-import { copyToClipboard } from '../utils';
+import { copyToClipboard } from "../Utils";
 
 interface Props { documentId: string; onClose: () => void; }
 

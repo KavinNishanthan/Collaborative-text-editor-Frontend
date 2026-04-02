@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { historyApi } from '../../api';
-import { getUserColor, getInitials } from '../../utils';
+import { getUserColor, getInitials } from "../../Utils";
 import { History, RotateCcw, Eye } from 'lucide-react';
 import toast from 'react-hot-toast';
 

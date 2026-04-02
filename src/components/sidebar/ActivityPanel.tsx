@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { activityApi } from '../../api';
-import { formatDate } from '../../utils';
+import { formatDate } from "../../Utils";
 import { Activity } from 'lucide-react';
 import toast from 'react-hot-toast';
 
