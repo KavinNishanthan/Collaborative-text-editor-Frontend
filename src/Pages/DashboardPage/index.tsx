@@ -498,9 +498,9 @@ export default function Dashboard() {
           {sidebarOpen ? <ChevronLeft size={18} /> : <FileText size={18} />}
         </button>
 
-        <div className='flex items-center gap-2 text-lg font-bold mr-3'>
-          <span className='text-[#4F46E5] text-xl'>✦</span>
-          <span className='hidden sm:inline'>te-ai</span>
+        <div className='flex items-center text-lg font-bold mr-3'>
+          <span>Collab</span>
+          <span className='text-blue-600'>Edit</span>
         </div>
 
         {activeDoc && (
