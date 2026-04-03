@@ -1,63 +1,91 @@
-import { useEffect, useState } from 'react';
-import { memberApi } from '../../api';
-import { getInitials } from "../../Utils";
-import { UserPlus, Trash2 } from 'lucide-react';
-import toast from 'react-hot-toast';
+// Importing Packages
+import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import { UserPlus, Trash2 } from "lucide-react";
 
-interface Props { documentId: string; role: string; }
+// Importing API
+import { memberApi } from "../../api";
+
+// Importing Utils
+import { getInitials } from "../../Utils";
+
+interface Props {
+  documentId: string;
+  role: string;
+}
 
 export default function MembersPanel({ documentId, role }: Props) {
   const [members, setMembers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [inviteEmail, setInviteEmail] = useState('');
-  const [inviteRole, setInviteRole] = useState<'editor' | 'viewer'>('editor');
+  const [inviteEmail, setInviteEmail] = useState("");
+  const [inviteRole, setInviteRole] = useState<"editor" | "viewer">("editor");
   const [inviting, setInviting] = useState(false);
 
   const fetchMembers = async () => {
     try {
       const res = await memberApi.getAll(documentId);
       setMembers(res.data.data || []);
-    } catch { toast.error('Failed to load members'); }
-    finally { setLoading(false); }
+    } catch {
+      toast.error("Failed to load members");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  useEffect(() => { fetchMembers(); }, [documentId]);
+  useEffect(() => {
+    fetchMembers();
+  }, [documentId]);
 
   const handleInvite = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inviteEmail.trim()) return;
     setInviting(true);
     try {
-      await memberApi.invite(documentId, { email: inviteEmail, role: inviteRole });
-      toast.success('Invite sent!');
-      setInviteEmail('');
+      await memberApi.invite(documentId, {
+        email: inviteEmail,
+        role: inviteRole,
+      });
+      toast.success("Invite sent!");
+      setInviteEmail("");
       fetchMembers();
     } catch (err: any) {
-      toast.error(err?.response?.data?.message || 'Failed to invite');
-    } finally { setInviting(false); }
+      toast.error(err?.response?.data?.message || "Failed to invite");
+    } finally {
+      setInviting(false);
+    }
   };
 
-  const handleRoleChange = async (memberId: string, newRole: 'editor' | 'viewer') => {
+  const handleRoleChange = async (
+    memberId: string,
+    newRole: "editor" | "viewer",
+  ) => {
     try {
       await memberApi.updateRole(documentId, memberId, newRole);
-      setMembers((m) => m.map((x) => x.memberId === memberId ? { ...x, role: newRole } : x));
-    } catch { toast.error('Failed to update role'); }
+      setMembers((m) =>
+        m.map((x) => (x.memberId === memberId ? { ...x, role: newRole } : x)),
+      );
+    } catch {
+      toast.error("Failed to update role");
+    }
   };
 
   const handleRemove = async (memberId: string) => {
     try {
       await memberApi.remove(documentId, memberId);
       setMembers((m) => m.filter((x) => x.memberId !== memberId));
-      toast.success('Member removed');
-    } catch { toast.error('Failed to remove member'); }
+      toast.success("Member removed");
+    } catch {
+      toast.error("Failed to remove member");
+    }
   };
 
-  const isOwner = role === 'owner';
-  const inputCls = "w-full px-3 py-2 bg-[#F8FAFC] border border-black/[0.06] rounded-xl text-sm text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#4F46E5] transition-all";
+  const isOwner = role === "owner";
+  const inputCls =
+    "w-full px-3 py-2 bg-[#F8FAFC] border border-black/[0.06] rounded-xl text-sm text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#4F46E5] transition-all";
   const roleColor: Record<string, string> = {
-    owner: 'bg-[rgba(79,70,229,0.08)] text-[#4F46E5]',
-    editor: 'bg-[rgba(16,185,129,0.08)] text-[#059669]',
-    viewer: 'bg-[rgba(100,116,139,0.08)] text-[#64748B]',
+    owner: "bg-[rgba(79,70,229,0.08)] text-[#4F46E5]",
+    editor: "bg-[rgba(16,185,129,0.08)] text-[#059669]",
+    viewer: "bg-[rgba(100,116,139,0.08)] text-[#64748B]",
   };
 
   return (

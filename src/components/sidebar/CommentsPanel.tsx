@@ -1,28 +1,46 @@
-import { useEffect, useState } from 'react';
-import { commentApi } from '../../api';
-import { getInitials, formatDate } from "../../Utils";
-import { MessageSquare, CheckCircle, CornerDownRight, Send } from 'lucide-react';
-import toast from 'react-hot-toast';
+// Importing Packages
+import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import {
+  MessageSquare,
+  CheckCircle,
+  CornerDownRight,
+  Send,
+} from "lucide-react";
 
-interface Props { documentId: string; role: string; }
+// Importing API
+import { commentApi } from "../../api";
+
+// Importing Utils
+import { getInitials, formatDate } from "../../Utils";
+
+interface Props {
+  documentId: string;
+  role: string;
+}
 
 export default function CommentsPanel({ documentId, role }: Props) {
   const [comments, setComments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [newComment, setNewComment] = useState('');
+  const [newComment, setNewComment] = useState("");
   const [replyTo, setReplyTo] = useState<string | null>(null);
-  const [replyText, setReplyText] = useState('');
+  const [replyText, setReplyText] = useState("");
   const [posting, setPosting] = useState(false);
 
   const fetchComments = async () => {
     try {
       const res = await commentApi.getAll(documentId);
       setComments(res.data.data || []);
-    } catch { toast.error('Failed to load comments'); }
-    finally { setLoading(false); }
+    } catch {
+      toast.error("Failed to load comments");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  useEffect(() => { fetchComments(); }, [documentId]);
+  useEffect(() => {
+    fetchComments();
+  }, [documentId]);
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,10 +48,13 @@ export default function CommentsPanel({ documentId, role }: Props) {
     setPosting(true);
     try {
       await commentApi.add(documentId, { content: newComment });
-      setNewComment('');
+      setNewComment("");
       fetchComments();
-    } catch { toast.error('Failed to add comment'); }
-    finally { setPosting(false); }
+    } catch {
+      toast.error("Failed to add comment");
+    } finally {
+      setPosting(false);
+    }
   };
 
   const handleReply = async (commentId: string) => {
@@ -41,20 +62,30 @@ export default function CommentsPanel({ documentId, role }: Props) {
     setPosting(true);
     try {
       await commentApi.reply(documentId, commentId, replyText);
-      setReplyText(''); setReplyTo(null);
+      setReplyText("");
+      setReplyTo(null);
       fetchComments();
-    } catch { toast.error('Failed to reply'); }
-    finally { setPosting(false); }
+    } catch {
+      toast.error("Failed to reply");
+    } finally {
+      setPosting(false);
+    }
   };
 
   const handleResolve = async (commentId: string) => {
     try {
       await commentApi.resolve(documentId, commentId);
-      setComments((c) => c.map((x) => x.commentId === commentId ? { ...x, isResolved: true } : x));
-    } catch { toast.error('Failed to resolve comment'); }
+      setComments((c) =>
+        c.map((x) =>
+          x.commentId === commentId ? { ...x, isResolved: true } : x,
+        ),
+      );
+    } catch {
+      toast.error("Failed to resolve comment");
+    }
   };
 
-  const canResolve = role === 'owner' || role === 'editor';
+  const canResolve = role === "owner" || role === "editor";
 
   return (
     <div className='flex flex-col h-full'>

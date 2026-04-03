@@ -1,8 +1,13 @@
-import { useEffect, useState } from 'react';
-import { historyApi } from '../../api';
+// Importing Packages
+import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import { History, RotateCcw, Eye } from "lucide-react";
+
+// Importing API
+import { historyApi } from "../../api";
+
+// Importing Utils
 import { getUserColor, getInitials } from "../../Utils";
-import { History, RotateCcw, Eye } from 'lucide-react';
-import toast from 'react-hot-toast';
 
 interface Props {
   documentId: string;
@@ -23,7 +28,11 @@ function groupByDate(entries: HistoryEntry[]) {
   const groups: Record<string, HistoryEntry[]> = {};
   for (const e of entries) {
     const d = new Date(e.timestamp);
-    const key = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    const key = d.toLocaleDateString("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+    });
     if (!groups[key]) groups[key] = [];
     groups[key].push(e);
   }
@@ -31,7 +40,10 @@ function groupByDate(entries: HistoryEntry[]) {
 }
 
 function formatTime(ts: string) {
-  return new Date(ts).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  return new Date(ts).toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 
 export default function HistoryPanel({ documentId, role, onPreview }: Props) {
@@ -41,21 +53,25 @@ export default function HistoryPanel({ documentId, role, onPreview }: Props) {
   const [activeId, setActiveId] = useState<string | null>(null);
 
   useEffect(() => {
-    historyApi.getAll(documentId)
+    historyApi
+      .getAll(documentId)
       .then((res) => setHistory(res.data.data || []))
-      .catch(() => toast.error('Failed to load history'))
+      .catch(() => toast.error("Failed to load history"))
       .finally(() => setLoading(false));
   }, [documentId]);
 
   const handleRestore = async (historyId: string) => {
-    if (!confirm('Restore this version? Your current content will be replaced.')) return;
+    if (
+      !confirm("Restore this version? Your current content will be replaced.")
+    )
+      return;
     setRestoring(historyId);
     try {
       await historyApi.restore(documentId, historyId);
-      toast.success('Version restored — reloading…');
+      toast.success("Version restored — reloading…");
       setTimeout(() => window.location.reload(), 1000);
     } catch {
-      toast.error('Failed to restore version');
+      toast.error("Failed to restore version");
     } finally {
       setRestoring(null);
     }
@@ -71,7 +87,7 @@ export default function HistoryPanel({ documentId, role, onPreview }: Props) {
     onPreview?.(null);
   };
 
-  const canRestore = role === 'owner' || role === 'editor';
+  const canRestore = role === "owner" || role === "editor";
   const groups = groupByDate(history);
 
   return (

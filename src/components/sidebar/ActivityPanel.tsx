@@ -1,17 +1,22 @@
-import { useEffect, useState } from 'react';
-import { activityApi } from '../../api';
+// Importing Packages
+import { useEffect, useState } from "react";
+import { Activity } from "lucide-react";
+import toast from "react-hot-toast";
+
+// Importing API
+import { activityApi } from "../../api";
+
+// Importing Utils
 import { formatDate } from "../../Utils";
-import { Activity } from 'lucide-react';
-import toast from 'react-hot-toast';
 
 const actionIcon: Record<string, string> = {
-  joined: '👋',
-  left: '🚪',
-  edited: '✏️',
-  commented: '💬',
-  invited: '🔗',
-  removed: '🗑️',
-  restored: '🔄',
+  joined: "👋",
+  left: "🚪",
+  edited: "✏️",
+  commented: "💬",
+  invited: "🔗",
+  removed: "🗑️",
+  restored: "🔄",
 };
 
 export default function ActivityPanel({ documentId }: { documentId: string }) {
@@ -19,9 +24,10 @@ export default function ActivityPanel({ documentId }: { documentId: string }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    activityApi.getAll(documentId)
+    activityApi
+      .getAll(documentId)
       .then((res) => setLogs(res.data.data || []))
-      .catch(() => toast.error('Failed to load activity'))
+      .catch(() => toast.error("Failed to load activity"))
       .finally(() => setLoading(false));
   }, [documentId]);
 
