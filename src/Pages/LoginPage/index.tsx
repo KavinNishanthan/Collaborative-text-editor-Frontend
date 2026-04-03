@@ -1,8 +1,8 @@
 // Importing Packages
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
-import toast from "react-hot-toast";
 
 // Importing API
 import { authApi } from "../../api";

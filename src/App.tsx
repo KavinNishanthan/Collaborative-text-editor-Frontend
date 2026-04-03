@@ -9,6 +9,8 @@ import { ProtectedRoute, PublicRoute } from "./Router/ProtectedRoute";
 import Login from "./Pages/LoginPage";
 import Register from "./Pages/RegisterPage";
 import Dashboard from "./Pages/DashboardPage";
+import Editor from "./components/Editor";
+import Join from "./components/Join";
 
 
 export default function App() {
@@ -39,6 +41,8 @@ export default function App() {
         {/* Auth */}
         <Route element={<ProtectedRoute />}>
           <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/join/:shareToken' element={<Join />} />
+          <Route path='/editor/:documentId' element={<Editor />} />
         </Route>
 
         <Route path='*' element={<Navigate to='/login' replace />} />

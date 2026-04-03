@@ -1,12 +1,10 @@
 // Importing Packages
 import { Extension } from "@tiptap/core";
 import { yCursorPlugin } from "@tiptap/y-tiptap";
-import type { Awareness } from "y-protocols/awareness";
 
-export interface CursorOptions {
-  provider: { awareness: Awareness } | null;
-  user: Record<string, any>;
-}
+// Importing Interface
+import type { CursorOptions } from "../interface/interface";
+
 
 /**
  * Custom CollaborationCursor extension that uses @tiptap/y-tiptap'sw

@@ -7,6 +7,7 @@ export const authApi = {
     api.post("/auth/verify/otp", data),
   login: (data: { email: string; password: string }) =>
     api.post("/auth/login", data),
+  logout: () => api.post("/auth/logout"),
 };
 
 export const documentApi = {

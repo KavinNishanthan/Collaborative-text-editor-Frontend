@@ -1,8 +1,8 @@
 // Importing Packages
 import * as Y from "yjs";
+import { Observable } from "lib0/observable";
 import { io, Socket } from "socket.io-client";
 import * as awarenessProtocol from "y-protocols/awareness";
-import { Observable } from "lib0/observable";
 
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:8080";
 
