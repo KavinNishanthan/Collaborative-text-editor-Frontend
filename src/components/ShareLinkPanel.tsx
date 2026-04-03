@@ -6,7 +6,7 @@ import { copyToClipboard } from "../Utils";
 
 interface Props { documentId: string; onClose: () => void; }
 
-export default function ShareModal({ documentId, onClose }: Props) {
+export default function ShareLinkPanel({ documentId, onClose }: Props) {
   const [token, setToken] = useState('');
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -37,7 +37,7 @@ export default function ShareModal({ documentId, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/20 backdrop-blur-sm animate-fade-in">
-      <div className="bg-white border border-black/[0.08] rounded-2xl p-7 max-w-md w-full shadow-[0_8px_48px_rgba(0,0,0,0.1)] animate-slide-up">
+      <div className="bg-white border border-black/8 rounded-2xl p-7 max-w-md w-full shadow-[0_8px_48px_rgba(0,0,0,0.1)] animate-slide-up">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2.5">
@@ -49,7 +49,7 @@ export default function ShareModal({ documentId, onClose }: Props) {
               <p className="text-xs text-[#64748B]">Generate a shareable link</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 rounded-xl text-[#94A3B8] hover:text-[#0F172A] hover:bg-black/[0.04] transition-all">
+          <button onClick={onClose} className="p-2 rounded-xl text-[#94A3B8] hover:text-[#0F172A] hover:bg-black/4 transition-all">
             <X size={18} />
           </button>
         </div>
@@ -77,10 +77,10 @@ export default function ShareModal({ documentId, onClose }: Props) {
                   type="text"
                   readOnly
                   value={shareLink}
-                  className="flex-1 px-3 py-2.5 bg-[#F8FAFC] border border-black/[0.08] rounded-xl text-sm text-[#64748B] outline-none font-mono truncate"
+                  className="flex-1 px-3 py-2.5 bg-[#F8FAFC] border border-black/8 rounded-xl text-sm text-[#64748B] outline-none font-mono truncate"
                 />
                 <button onClick={handleCopy}
-                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-medium text-sm bg-[rgba(79,70,229,0.06)] text-[#4F46E5] border border-[rgba(79,70,229,0.12)] hover:bg-[rgba(79,70,229,0.12)] transition-all flex-shrink-0">
+                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-medium text-sm bg-[rgba(79,70,229,0.06)] text-[#4F46E5] border border-[rgba(79,70,229,0.12)] hover:bg-[rgba(79,70,229,0.12)] transition-all shrink-0">
                   {copied ? <><Check size={14} className="text-[#10B981]" /> Copied!</> : <><Copy size={14} /> Copy</>}
                 </button>
               </div>
