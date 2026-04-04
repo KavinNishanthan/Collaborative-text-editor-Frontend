@@ -49,6 +49,7 @@ export class SocketIOProvider extends Observable<string> {
       this.socket.emit("join-document", this.documentId);
     });
 
+
     this.socket.on("sync-init", (stateUpdate: ArrayBuffer) => {
       try {
         if (stateUpdate && stateUpdate.byteLength > 0) {
@@ -70,6 +71,7 @@ export class SocketIOProvider extends Observable<string> {
       this.emit("sync", [true]);
     });
 
+   
     this.socket.on("yjs-update", (update: ArrayBuffer) => {
       try {
         Y.applyUpdate(this.doc, new Uint8Array(update), this);
@@ -78,6 +80,7 @@ export class SocketIOProvider extends Observable<string> {
       }
     });
 
+   
     this.socket.on("awareness-update", (update: ArrayBuffer) => {
       try {
         awarenessProtocol.applyAwarenessUpdate(
@@ -134,6 +137,7 @@ export class SocketIOProvider extends Observable<string> {
     };
     this.awareness.on("update", this._awarenessHandler);
 
+    
     this._awarenessHeartbeat = setInterval(() => {
       if (!this._connected) return;
       const localState = this.awareness.getLocalState();
@@ -142,10 +146,11 @@ export class SocketIOProvider extends Observable<string> {
       }
     }, 15_000);
 
+  
     this.socket.on("user-left", ({ userId }: { userId: string }) => {
       const states = this.awareness.getStates();
       const toRemove: number[] = [];
-      states.forEach((state: Record<string, Record<string, string>>, clientId: number) => {
+      states.forEach((state: any, clientId: number) => {
         if (clientId === this.doc.clientID) return;
         if (state?.user?.userId === userId) {
           toRemove.push(clientId);

@@ -20,7 +20,8 @@ export default function Editor() {
 
   return (
     <div className='min-h-screen bg-[#F8FAFC] flex items-center justify-center'>
-      <span className='w-8 h-8 border-2 border-black/8 border-t-[#4F46E5] rounded-full animate-spin-custom' />
+      <span className='w-8 h-8 border-2 border-black/[0.08] border-t-[#4F46E5] rounded-full animate-spin-custom' />
     </div>
   );
 }
+
