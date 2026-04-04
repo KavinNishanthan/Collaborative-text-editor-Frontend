@@ -28,5 +28,5 @@ export interface Invitation {
 
 export interface CursorOptions {
   provider: { awareness: Awareness } | null;
-  user: Record<string, any>;
+  user: Record<string, string>;
 }

@@ -27,8 +27,9 @@ export default function ShareLinkPanel({ documentId, onClose }: Props) {
       const res = await sharingApi.generateLink(documentId);
       setToken(res.data.data.shareToken);
       toast.success("Share link generated!");
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Failed to generate link");
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } } };
+      toast.error(axiosErr?.response?.data?.message || "Failed to generate link");
     } finally {
       setLoading(false);
     }

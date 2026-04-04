@@ -42,5 +42,3 @@ build_app:
     paths:
       - dist/
     expire_in: 1 hour
-
-

@@ -145,7 +145,7 @@ export class SocketIOProvider extends Observable<string> {
     this.socket.on("user-left", ({ userId }: { userId: string }) => {
       const states = this.awareness.getStates();
       const toRemove: number[] = [];
-      states.forEach((state: any, clientId: number) => {
+      states.forEach((state: Record<string, Record<string, string>>, clientId: number) => {
         if (clientId === this.doc.clientID) return;
         if (state?.user?.userId === userId) {
           toRemove.push(clientId);

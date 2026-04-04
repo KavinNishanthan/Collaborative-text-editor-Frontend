@@ -1,5 +1,6 @@
 // Importing Packages
 import * as Y from "yjs";
+import type { Awareness } from "y-protocols/awareness";
 import toast from "react-hot-toast";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState, useCallback, useRef } from "react";
@@ -88,7 +89,7 @@ export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const activeDocId = searchParams.get("doc") || null;
-  const [activeDoc, setActiveDoc] = useState<any>(null);
+  const [activeDoc, setActiveDoc] = useState<(Document & { role: string }) | null>(null);
   const [docRole, setDocRole] = useState<string>("owner");
   const [docLoading, setDocLoading] = useState(false);
   const [panel, setPanel] = useState<Panel>(null);
@@ -124,7 +125,7 @@ export default function Dashboard() {
         ...(providerRef.current
           ? [
               CollabCursor.configure({
-                provider: providerRef.current as any,
+                provider: providerRef.current as { awareness: Awareness },
                 user: {
                   name: user?.name || "Anonymous",
                   color: getUserColor(user?.userId || "anon"),
@@ -258,7 +259,7 @@ export default function Dashboard() {
         ydocRef.current = null;
       }
     };
-  }, [activeDocId]);
+  }, [activeDocId, editor, setSearchParams, user]);
 
   // ---------- handleHistoryPreview ----------
   const handleHistoryPreview = useCallback((content: string | null) => {
@@ -401,7 +402,9 @@ export default function Dashboard() {
   const handleLogout = async () => {
     try {
       await authApi.logout();
-    } catch {}
+    } catch {
+      // logout proceeds regardless of API failure
+    }
     logout();
     navigate("/");
   };
@@ -428,12 +431,13 @@ export default function Dashboard() {
       fetchDocs();
       const docId = res.data.data?.documentId;
       if (docId) setSearchParams({ doc: docId });
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Failed to accept");
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } } };
+      toast.error(axiosErr?.response?.data?.message || "Failed to accept");
     } finally {
       setInvLoading(null);
     }
-  }, []);
+  }, [fetchDocs, setSearchParams]);
 
   // ---------- handleDeclineInvite ----------
   const handleDeclineInvite = useCallback(async (invitationId: string) => {
@@ -444,8 +448,9 @@ export default function Dashboard() {
       setInvitations((prev) =>
         prev.filter((i) => i.invitationId !== invitationId),
       );
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Failed to decline");
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } } };
+      toast.error(axiosErr?.response?.data?.message || "Failed to decline");
     } finally {
       setInvLoading(null);
     }
@@ -462,7 +467,7 @@ export default function Dashboard() {
     if (!activeDocId || !titleVal.trim()) return;
     try {
       await documentApi.update(activeDocId, { title: titleVal });
-      setActiveDoc((d: any) => ({ ...d, title: titleVal }));
+      setActiveDoc((d) => d ? { ...d, title: titleVal } : d);
       setDocs((ds) =>
         ds.map((d) =>
           d.documentId === activeDocId ? { ...d, title: titleVal } : d,

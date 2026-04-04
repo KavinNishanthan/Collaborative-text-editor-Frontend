@@ -14,8 +14,15 @@ interface Props {
   role: string;
 }
 
+interface Member {
+  memberId: string;
+  userId: string;
+  role: string;
+  user?: { name: string };
+}
+
 export default function MembersPanel({ documentId, role }: Props) {
-  const [members, setMembers] = useState<any[]>([]);
+  const [members, setMembers] = useState<Member[]>([]);
   const [loading, setLoading] = useState(true);
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteRole, setInviteRole] = useState<"editor" | "viewer">("editor");
@@ -34,6 +41,7 @@ export default function MembersPanel({ documentId, role }: Props) {
 
   useEffect(() => {
     fetchMembers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [documentId]);
 
   const handleInvite = async (e: React.FormEvent) => {
@@ -48,8 +56,9 @@ export default function MembersPanel({ documentId, role }: Props) {
       toast.success("Invite sent!");
       setInviteEmail("");
       fetchMembers();
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Failed to invite");
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } } };
+      toast.error(axiosErr?.response?.data?.message || "Failed to invite");
     } finally {
       setInviting(false);
     }
@@ -104,7 +113,7 @@ export default function MembersPanel({ documentId, role }: Props) {
             <div className='flex gap-2'>
               <select
                 value={inviteRole}
-                onChange={(e) => setInviteRole(e.target.value as any)}
+                onChange={(e) => setInviteRole(e.target.value as "editor" | "viewer")}
                 className={`${inputCls} flex-1`}>
                 <option value='editor'>Editor</option>
                 <option value='viewer'>Viewer</option>
@@ -149,7 +158,7 @@ export default function MembersPanel({ documentId, role }: Props) {
                     <select
                       value={m.role}
                       onChange={(e) =>
-                        handleRoleChange(m.memberId, e.target.value as any)
+                        handleRoleChange(m.memberId, e.target.value as "editor" | "viewer")
                       }
                       className='bg-transparent text-[11px] font-semibold uppercase tracking-wide border-none outline-none cursor-pointer text-[#64748B] hover:text-[#0F172A] transition-colors'>
                       <option value='editor'>Editor</option>

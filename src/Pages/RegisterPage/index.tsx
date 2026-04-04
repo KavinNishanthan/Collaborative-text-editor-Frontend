@@ -29,8 +29,9 @@ export default function Register() {
       await authApi.register({ name: form.name, email: form.email, password: form.password });
       toast.success('OTP sent to your email!');
       setStep('otp');
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || 'Registration failed.');
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } } };
+      toast.error(axiosErr?.response?.data?.message || 'Registration failed.');
     } finally {
       setLoading(false);
     }
@@ -43,8 +44,9 @@ export default function Register() {
       await authApi.verifyOtp({ email: form.email, otp });
       toast.success('Account created! Please sign in.');
       navigate('/login');
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || 'Invalid OTP.');
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } } };
+      toast.error(axiosErr?.response?.data?.message || 'Invalid OTP.');
     } finally {
       setLoading(false);
     }

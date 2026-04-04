@@ -34,7 +34,7 @@ const CollabCursor = Extension.create<CursorOptions>({
         awarenessStateFilter: (
           currentClientId: number,
           otherClientId: number,
-          otherState: any,
+          otherState: { user?: { userId?: string } },
         ) => {
           if (currentClientId === otherClientId) return false;
           if (localUserId && otherState?.user?.userId === localUserId)
@@ -42,7 +42,7 @@ const CollabCursor = Extension.create<CursorOptions>({
           return true;
         },
 
-        cursorBuilder: (awarenessUser: Record<string, any>) => {
+        cursorBuilder: (awarenessUser: Record<string, string>) => {
           const cursor = document.createElement("span");
           cursor.classList.add("collaboration-cursor__caret");
           cursor.setAttribute(

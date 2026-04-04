@@ -19,8 +19,23 @@ interface Props {
   role: string;
 }
 
+interface Reply {
+  replyId: string;
+  userId?: string;
+  content: string;
+}
+
+interface Comment {
+  commentId: string;
+  content: string;
+  isResolved: boolean;
+  createdAt: string;
+  author?: { name: string };
+  replies?: Reply[];
+}
+
 export default function CommentsPanel({ documentId, role }: Props) {
-  const [comments, setComments] = useState<any[]>([]);
+  const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
   const [newComment, setNewComment] = useState("");
   const [replyTo, setReplyTo] = useState<string | null>(null);
@@ -40,6 +55,7 @@ export default function CommentsPanel({ documentId, role }: Props) {
 
   useEffect(() => {
     fetchComments();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [documentId]);
 
   const handleAdd = async (e: React.FormEvent) => {
@@ -152,7 +168,7 @@ export default function CommentsPanel({ documentId, role }: Props) {
               </div>
 
               {/* Replies */}
-              {c.replies?.map((r: any) => (
+              {c.replies?.map((r: Reply) => (
                 <div
                   key={r.replyId}
                   className='ml-9 flex items-start gap-2 mt-2'>

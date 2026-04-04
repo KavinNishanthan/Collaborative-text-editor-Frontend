@@ -19,8 +19,15 @@ const actionIcon: Record<string, string> = {
   restored: "🔄",
 };
 
+interface ActivityLog {
+  logId: string;
+  action: string;
+  user?: { name: string };
+  timestamp: string;
+}
+
 export default function ActivityPanel({ documentId }: { documentId: string }) {
-  const [logs, setLogs] = useState<any[]>([]);
+  const [logs, setLogs] = useState<ActivityLog[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

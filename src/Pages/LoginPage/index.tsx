@@ -26,9 +26,10 @@ export default function Login() {
       setUser(data);
       toast.success("Welcome back!");
       navigate("/dashboard");
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } } };
       toast.error(
-        err?.response?.data?.message || "Login failed. Please try again.",
+        axiosErr?.response?.data?.message || "Login failed. Please try again.",
       );
     } finally {
       setLoading(false);

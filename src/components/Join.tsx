@@ -30,7 +30,7 @@ export default function Join() {
         toast.error(err?.response?.data?.message || "Invalid or expired link.");
         navigate("/dashboard");
       });
-  }, [shareToken]);
+  }, [shareToken, navigate]);
 
   return (
     <div className='min-h-screen bg-[#F8FAFC] flex items-center justify-center'>
