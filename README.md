@@ -218,6 +218,14 @@ The project is deployed using a production-ready DevOps pipeline:
 
 This architecture enables efficient delivery, reproducibility, and streamlined deployments.
 
+Frontend ci/cd
+
+<img width="1512" height="982" alt="Screenshot 2026-04-04 at 11 59 33 PM" src="https://github.com/user-attachments/assets/fe08c80c-669a-41f1-967a-6243869708b6" />
+
+Backend ci/cd
+
+<img width="1512" height="982" alt="Screenshot 2026-04-05 at 12 02 08 AM" src="https://github.com/user-attachments/assets/0e0ebbd5-b593-4861-88e5-01c594b65a76" />
+
 ---
 
 ## API Endpoints
