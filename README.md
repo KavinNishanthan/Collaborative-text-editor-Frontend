@@ -91,11 +91,8 @@ Live App:** [http://16.176.171.124/login](http://16.176.171.124/login) -->
 | **Editor**     | TipTap 3 (StarterKit, Collaboration, Highlight, TextAlign, Placeholder) |
 | **CRDT**       | Yjs + y-protocols (awareness)                                           |
 | **Real-Time**  | Socket.IO Client 4                                                      |
-| **Routing**    | React Router 7                                                          |
 | **State**      | Zustand 5                                                               |
 | **HTTP**       | Axios                                                                   |
-| **Icons**      | Lucide React                                                            |
-| **Toasts**     | React Hot Toast                                                         |
 | **Linting**    | ESLint 9 + TypeScript ESLint                                            |
 | **Container**  | Docker (Nginx-based production build)                                   |
 | **CI/CD**      | GitLab CI/CD                                                            |
@@ -203,13 +200,11 @@ docker run -p 80:80 collabedit-frontend
 
 ## AI Tools Used
 
-| Tool                 | How It Was Used                                                                                       |
-|----------------------|-------------------------------------------------------------------------------------------------------|
-| **Gemini,ChatGPT** |
+| Tool                 |                                                                                       
+|----------------------|
+|  **Gemini,ChatGPT**  |
 
-> AI tools such as ChatGPT and Gemini were used to accelerate development and support learning, particularly while working with technologies like Socket.IO and real-time synchronization. 
-
-> AI was used as a pair programming assistant to accelerate development , understanding concepts and debug complex real-time synchronization issues. 
+> AI tools such as ChatGPT and Gemini were used to accelerate development and support learning,Debug complex real-time synchronization issues, particularly while working with technologies like Socket.IO and real-time synchronization. 
 
 ---
 
@@ -223,8 +218,3 @@ docker run -p 80:80 collabedit-frontend
 - **No Image/File Uploads** — The editor supports text formatting only; media embedding is not implemented
 - **Browser Support** — Tested on Chrome and Firefox; Safari WebSocket support may vary
 
----
-
-## License
-
-ISC
