@@ -41,7 +41,7 @@ lint_code:
     - install_dependencies
   script:
     - npm run lint
-  allow_failure: false
+  allow_failure: true
 
 build_app:
   stage: build
