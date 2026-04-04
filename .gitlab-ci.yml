@@ -1,0 +1,46 @@
+stages:
+  - install
+  - lint
+  - build
+
+variables:
+  NODE_IMAGE: node:20-alpine
+
+install_dependencies:
+  stage: install
+  image: $NODE_IMAGE
+  script:
+    - npm ci
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules/
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 hour
+
+lint_code:
+  stage: lint
+  image: $NODE_IMAGE
+  needs:
+    - install_dependencies
+  script:
+    - npm run lint
+  allow_failure: false
+
+build_app:
+  stage: build
+  image: $NODE_IMAGE
+  needs:
+    - install_dependencies
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
+
+
