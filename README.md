@@ -10,7 +10,7 @@ Live App:--> [http://16.176.171.124/login](http://16.176.171.124/login)
 ---
 
 # Backend Repo URL 
-Live App:--> [https://github.com/KavinNishanthan/Collaborative-text-editor-Backend.com](https://github.com/KavinNishanthan/Collaborative-text-editor-Backend)
+Repo URL:--> [https://github.com/KavinNishanthan/Collaborative-text-editor-Backend.com](https://github.com/KavinNishanthan/Collaborative-text-editor-Backend)
 
 ---
 
