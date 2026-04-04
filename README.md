@@ -8,9 +8,11 @@ A real-time collaborative text editor frontend with Google Docs-like editing exp
 Live App:--> [http://16.176.171.124/login](http://16.176.171.124/login) 
 
 ---
-# Backend Repo URL 
-Live App:--> [https://github.com/KavinNishanthan/Collaborative-text-editor-Backend.com]((https://github.com/KavinNishanthan/Collaborative-text-editor-Backend.com))
 
+# Backend Repo URL 
+Live App:--> [https://github.com/KavinNishanthan/Collaborative-text-editor-Backend.com](https://github.com/KavinNishanthan/Collaborative-text-editor-Backend)
+
+---
 
 ## Table of Contents
 
