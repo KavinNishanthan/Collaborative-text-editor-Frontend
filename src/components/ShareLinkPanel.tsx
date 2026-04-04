@@ -36,10 +36,14 @@ export default function ShareLinkPanel({ documentId, onClose }: Props) {
   };
 
   const handleCopy = async () => {
-    await copyToClipboard(shareLink);
-    setCopied(true);
-    toast.success("Link copied!");
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await copyToClipboard(shareLink);
+      setCopied(true);
+      toast.success("Link copied!");
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast.error("Failed to copy link. Please copy manually.");
+    }
   };
 
   return (

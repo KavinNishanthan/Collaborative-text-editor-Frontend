@@ -9,6 +9,7 @@ import { ProtectedRoute, PublicRoute } from "./Router/ProtectedRoute";
 import Login from "./Pages/LoginPage";
 import Register from "./Pages/RegisterPage";
 import Dashboard from "./Pages/DashboardPage";
+import GoogleAuthCallback from "./components/GoogleAuthCallback";
 import Editor from "./components/Editor";
 import Join from "./components/Join";
 
@@ -17,7 +18,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Toaster
-        position='top-right'
+        position='top-center'
         toastOptions={{
           style: {
             background: "#FFFFFF",
@@ -37,6 +38,9 @@ export default function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
         </Route>
+
+        {/* Google OAuth callback (outside PublicRoute so it works regardless of auth state) */}
+        <Route path='/auth/google/success' element={<GoogleAuthCallback />} />
 
         {/* Auth */}
         <Route element={<ProtectedRoute />}>

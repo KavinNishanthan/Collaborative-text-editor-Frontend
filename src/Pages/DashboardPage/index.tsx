@@ -50,6 +50,7 @@ import type { Document, OnlineUser } from "../../interface/interface";
 
 // Importing Lib
 import CollabCursor from "../../lib/CollabCursor";
+import CommentHighlight from "../../lib/CommentHighlight";
 import { SocketIOProvider } from "../../lib/SocketIOProvider";
 
 // Importing API
@@ -69,6 +70,7 @@ import CommentsPanel from "../../components/sidebar/CommentsPanel";
 
 // Declaring Types
 type Panel = "members" | "comments" | "history" | null;
+interface FloatingBtn { top: number; left: number; }
 type SaveStatus = "saved" | "saving" | "error" | "idle";
 
 export default function Dashboard() {
@@ -96,6 +98,7 @@ export default function Dashboard() {
   const [titleVal, setTitleVal] = useState("");
   const [onlineUsers, setOnlineUsers] = useState<OnlineUser[]>([]);
   const [historyPreview, setHistoryPreview] = useState<string | null>(null);
+  const [floatingBtn, setFloatingBtn] = useState<FloatingBtn | null>(null);
   const providerRef = useRef<SocketIOProvider | null>(null);
   const ydocRef = useRef<Y.Doc | null>(null);
   const isPreviewingRef = useRef(false);
@@ -126,6 +129,7 @@ export default function Dashboard() {
         Placeholder.configure({ placeholder: "Start writing your document…" }),
         TextAlign.configure({ types: ["heading", "paragraph"] }),
         Highlight.configure({ multicolor: true }),
+        CommentHighlight,
 
         ...(ydocRef.current
           ? [Collaboration.configure({ document: ydocRef.current })]
@@ -145,6 +149,21 @@ export default function Dashboard() {
       ],
       editable: true,
       editorProps: { attributes: { spellcheck: "true" } },
+      onSelectionUpdate: ({ editor: ed }) => {
+        const { from, to } = ed.state.selection;
+        if (to - from > 0 && !ed.state.selection.empty) {
+          const coords = ed.view.coordsAtPos(from);
+          const editorRect = ed.view.dom.closest('.editor-paper')?.getBoundingClientRect();
+          if (editorRect) {
+            setFloatingBtn({
+              top: coords.top - editorRect.top - 36,
+              left: coords.left - editorRect.left,
+            });
+          }
+        } else {
+          setFloatingBtn(null);
+        }
+      },
     },
     [editorReady],
   );
@@ -997,7 +1016,7 @@ export default function Dashboard() {
           {/* Scrollable canvas area  */}
           <div className='flex-1 overflow-y-auto editor-canvas'>
             {!activeDocId && !docLoading && (
-              <div className='flex flex-col items-center justify-center h-full gap-5 text-center px-6'>
+              <div className='flex flex-col items-center justify-center flex-1 gap-5 text-center px-6'>
                 <div className='w-20 h-20 rounded-3xl bg-gradient-to-br from-primary-dim to-[rgba(6,182,212,0.06)] border border-[rgba(79,70,229,0.1)] flex items-center justify-center text-primary'>
                   <FileText size={36} />
                 </div>
@@ -1025,7 +1044,7 @@ export default function Dashboard() {
             )}
 
             {docLoading && (
-              <div className='flex items-center justify-center h-full'>
+              <div className='flex items-center justify-center flex-1'>
                 <div className='flex flex-col items-center gap-3'>
                   <span className='w-8 h-8 border-2 border-black/8 border-t-primary rounded-full animate-spin-custom' />
                   <p className='text-sm text-text-2'>Loading document…</p>
@@ -1050,6 +1069,20 @@ export default function Dashboard() {
 
                 {/* Paper */}
                 <div className='editor-paper' style={{ position: "relative" }}>
+                  {/* Floating comment button */}
+                  {floatingBtn && canEdit && !historyPreview && (
+                    <button
+                      className='comment-float-btn'
+                      style={{ top: floatingBtn.top, left: floatingBtn.left }}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        setPanel('comments');
+                        setFloatingBtn(null);
+                      }}
+                    >
+                      <MessageSquare size={12} /> Comment
+                    </button>
+                  )}
                   {historyPreview && diffParts ? (
                     <div
                       className='ProseMirror history-diff'
@@ -1111,7 +1144,7 @@ export default function Dashboard() {
                   <MembersPanel documentId={activeDocId} role={docRole} />
                 )}
                 {panel === "comments" && (
-                  <CommentsPanel documentId={activeDocId} role={docRole} />
+                  <CommentsPanel documentId={activeDocId} role={docRole} editor={editor} />
                 )}
                 {panel === "history" && (
                   <HistoryPanel
