@@ -266,7 +266,18 @@ export default function Dashboard() {
           if (editor) editor.setEditable(canEdit);
         }, 100);
 
-        setDocLoading(false);
+        // Wait for Yjs sync before removing the loading screen
+        // Provider emits 'synced' after applying state — safer than socket.once('sync-init')
+        const syncTimeout = setTimeout(() => {
+          setDocLoading(false);
+        }, 2000); // fallback for new/empty docs or slow connections
+
+        p.once("synced", () => {
+          clearTimeout(syncTimeout);
+          // Brief delay so TipTap renders the Yjs content before loader disappears
+          setTimeout(() => setDocLoading(false), 80);
+        });
+
       })
       .catch(() => {
         toast.error("Failed to load document");
