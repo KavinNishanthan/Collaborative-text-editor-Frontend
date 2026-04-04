@@ -2,8 +2,10 @@
 
 A real-time collaborative text editor frontend with Google Docs-like editing experience. Built with React, TypeScript, TipTap, and Yjs CRDTs over Socket.IO.
 
-<!-- Live URL -->
-<!-- 🔗 **Live App:** [https://your-frontend-url.com](https://your-frontend-url.com) -->
+---
+
+# Live URL 
+Live App:** [http://16.176.171.124/login](http://16.176.171.124/login) -->
 
 ---
 
@@ -40,22 +42,22 @@ A real-time collaborative text editor frontend with Google Docs-like editing exp
 ## Architecture Overview
 
 ```
-┌─────────────────────────────────────────────────────────────┐
+┌──────────────────────────────────────────────────────────────┐
 │                     React Application                        │
-│                                                             │
-│  ┌────────────┐     ┌──────────────┐     ┌──────────────┐  │
-│  │   Pages     │     │  Components   │     │   Lib         │  │
-│  │  Login      │     │  Editor       │     │  SocketIO     │  │
-│  │  Register   │     │  ShareLink    │     │  Provider     │  │
-│  │  Dashboard  │     │  Sidebar:     │     │  CollabCursor │  │
-│  │             │     │   Members     │     │               │  │
-│  │             │     │   Comments    │     └───────┬───────┘  │
-│  │             │     │   History     │             │          │
-│  │             │     │   Activity    │             │          │
-│  └──────┬──────┘     └──────┬───────┘             │          │
-│         │                   │                      │          │
+│                                                              │
+│  ┌─────────────┐     ┌───────────────┐     ┌───────────────┐ │
+│  │  Pages:     │     │  Components:  │     │  Lib:         │ │
+│  │  Login      │     │  Editor       │     │  SocketIO     │ │
+│  │  Register   │     │  ShareLink    │     │  Provider     │ │
+│  │  Dashboard  │     │  Sidebar:     │     │  CollabCursor │ │
+│  │             │     │   Members     │     │               │ │
+│  │             │     │   Comments    │     └───────┬───────┘ │
+│  │             │     │   History     │             │         │
+│  │             │     │   Activity    │             │         │
+│  └──────┬──────┘     └──────┬───────┘              │         │
+│         │                   │                      │         │
 │  ┌──────▼───────────────────▼──────────────────────▼───────┐ │
-│  │                    State Layer                           │ │
+│  │                    State Layer                          │ │
 │  │   Zustand (Auth Store)  +  React State  +  Yjs (Y.Doc)  │ │
 │  └──────┬───────────────────────────────────┬──────────────┘ │
 │         │  REST API (Axios)                 │  WebSocket     │
@@ -80,23 +82,23 @@ A real-time collaborative text editor frontend with Google Docs-like editing exp
 
 ## Tech Stack
 
-| Layer          | Technology                                                           |
-|----------------|----------------------------------------------------------------------|
-| **Framework**  | React 19                                                             |
-| **Language**   | TypeScript 5                                                         |
-| **Build Tool** | Vite 8                                                               |
-| **Styling**    | Tailwind CSS 4                                                       |
+| Layer          | Technology                                                              |
+|----------------|-------------------------------------------------------------------------|
+| **Framework**  | React 19                                                                |
+| **Language**   | TypeScript 5                                                            |
+| **Build Tool** | Vite 8                                                                  |
+| **Styling**    | Tailwind CSS 4                                                          |
 | **Editor**     | TipTap 3 (StarterKit, Collaboration, Highlight, TextAlign, Placeholder) |
-| **CRDT**       | Yjs + y-protocols (awareness)                                        |
-| **Real-Time**  | Socket.IO Client 4                                                   |
-| **Routing**    | React Router 7                                                       |
-| **State**      | Zustand 5                                                            |
-| **HTTP**       | Axios                                                                |
-| **Icons**      | Lucide React                                                         |
-| **Toasts**     | React Hot Toast                                                      |
-| **Linting**    | ESLint 9 + TypeScript ESLint                                         |
-| **Container**  | Docker (Nginx-based production build)                                |
-| **CI/CD**      | GitLab CI/CD                                                         |
+| **CRDT**       | Yjs + y-protocols (awareness)                                           |
+| **Real-Time**  | Socket.IO Client 4                                                      |
+| **Routing**    | React Router 7                                                          |
+| **State**      | Zustand 5                                                               |
+| **HTTP**       | Axios                                                                   |
+| **Icons**      | Lucide React                                                            |
+| **Toasts**     | React Hot Toast                                                         |
+| **Linting**    | ESLint 9 + TypeScript ESLint                                            |
+| **Container**  | Docker (Nginx-based production build)                                   |
+| **CI/CD**      | GitLab CI/CD                                                            |
 
 ---
 
@@ -135,7 +137,6 @@ src/
 ├── interface/                  # TypeScript type definitions
 └── Utils/                      # Utility functions (formatDate, getInitials, etc.)
 ```
-
 ---
 
 ## Setup Instructions
@@ -204,9 +205,11 @@ docker run -p 80:80 collabedit-frontend
 
 | Tool                 | How It Was Used                                                                                       |
 |----------------------|-------------------------------------------------------------------------------------------------------|
-| **Gemini (Antigravity)** | Assisted with code scaffolding, debugging Socket.IO/Yjs synchronization issues, implementing email invitation flow, building the CollabCursor extension, configuring environment variables, setting up Docker & GitLab CI/CD pipelines, implementing performant diff algorithms for history preview, fixing TypeScript lint errors, and writing README documentation. |
+| **Gemini,ChatGPT** |
 
-> All core application logic, architecture decisions, UI/UX design, and feature implementations were designed and built by the developer. AI was used as a pair programming assistant to accelerate development and debug complex real-time synchronization issues.
+> AI tools such as ChatGPT and Gemini were used to accelerate development and support learning, particularly while working with technologies like Socket.IO and real-time synchronization. 
+
+> AI was used as a pair programming assistant to accelerate development , understanding concepts and debug complex real-time synchronization issues. 
 
 ---
 
