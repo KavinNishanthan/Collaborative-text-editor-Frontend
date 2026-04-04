@@ -2,9 +2,19 @@ stages:
   - install
   - lint
   - build
+  - docker
+  - deploy
 
 variables:
   NODE_IMAGE: node:20-alpine
+  AWS_REGION: ap-southeast-2
+  ECR_REGISTRY: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+  IMAGE_NAME: $ECR_REGISTRY/my-frontend
+  IMAGE_TAG: $CI_COMMIT_SHA
+  EC2_USER: ubuntu
+  CONTAINER_NAME: frontend
+  HOST_PORT: 80
+  CONTAINER_PORT: 80
 
 install_dependencies:
   stage: install
@@ -37,8 +47,69 @@ build_app:
   needs:
     - install_dependencies
   script:
+    - |
+      cat > .env.production << EOF
+      VITE_BASE_URL=$VITE_BASE_URL
+      VITE_SOCKET_URL=$VITE_SOCKET_URL
+      EOF
     - npm run build
   artifacts:
     paths:
       - dist/
     expire_in: 1 hour
+
+docker_build_push:
+  stage: docker
+  image: docker:24
+  services:
+    - docker:24-dind
+  needs:
+    - build_app
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  before_script:
+    - apk add --no-cache aws-cli
+    - aws ecr get-login-password --region $AWS_REGION |
+        docker login --username AWS --password-stdin $ECR_REGISTRY
+  script:
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG -t $IMAGE_NAME:latest .
+    - docker push $IMAGE_NAME:$IMAGE_TAG
+    - docker push $IMAGE_NAME:latest
+  only:
+    - main
+
+deploy_to_ec2:
+  stage: deploy
+  image: alpine:3.19
+  needs:
+    - docker_build_push
+  before_script:
+    - apk add --no-cache openssh-client aws-cli
+    - mkdir -p ~/.ssh
+    - echo "$EC2_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H $EC2_HOST >> ~/.ssh/known_hosts
+  script:
+    - |
+      ssh $EC2_USER@$EC2_HOST "
+        aws ecr get-login-password --region $AWS_REGION | \
+          docker login --username AWS --password-stdin $ECR_REGISTRY
+
+        docker pull $IMAGE_NAME:$IMAGE_TAG
+
+        docker stop $CONTAINER_NAME || true
+        docker rm   $CONTAINER_NAME || true
+
+        docker run -d \
+          --name $CONTAINER_NAME \
+          --restart unless-stopped \
+          -p $HOST_PORT:$CONTAINER_PORT \
+          $IMAGE_NAME:$IMAGE_TAG
+
+        docker image prune -f
+      "
+  environment:
+    name: production
+    url: http://$EC2_HOST
+  only:
+    - main
