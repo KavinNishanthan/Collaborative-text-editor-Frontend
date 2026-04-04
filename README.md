@@ -47,9 +47,9 @@ Live App:** [http://16.176.171.124/login](http://16.176.171.124/login) -->
 │                                                              │
 │  ┌─────────────┐     ┌───────────────┐     ┌───────────────┐ │
 │  │  Pages:     │     │  Components:  │     │  Lib:         │ │
-│  │  Login      │     │  Editor       │     │  SocketIO     │ │
-│  │  Register   │     │  ShareLink    │     │  Provider     │ │
-│  │  Dashboard  │     │  Sidebar:     │     │  CollabCursor │ │
+│  │   Login     │     │   Editor      │     │  SocketIO     │ │
+│  │   Register  │     │   ShareLink   │     │  Provider     │ │
+│  │   Dashboard │     │  Sidebar:     │     │  CollabCursor │ │
 │  │             │     │   Members     │     │               │ │
 │  │             │     │   Comments    │     └───────┬───────┘ │
 │  │             │     │   History     │             │         │
