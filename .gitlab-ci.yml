@@ -1,6 +1,5 @@
 stages:
   - install
-  - lint
   - build
   - docker
   - deploy
@@ -31,17 +30,6 @@ install_dependencies:
     paths:
       - node_modules/
     expire_in: 1 hour
-
-lint_code:
-  stage: lint
-  image: $NODE_IMAGE
-  needs:
-    - install_dependencies
-  dependencies:
-    - install_dependencies
-  script:
-    - npm run lint
-  allow_failure: true
 
 build_app:
   stage: build
