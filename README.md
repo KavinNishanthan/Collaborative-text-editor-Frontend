@@ -24,6 +24,8 @@ Repo URL:--> [https://github.com/KavinNishanthan/Collaborative-text-editor-Backe
 - [Project Structure](#project-structure)
 - [Setup Instructions](#setup-instructions)
 - [Environment Variables](#environment-variables)
+- [Deployment](#deployment)
+- [API Endpoints](#api-endpoints)
 - [AI Tools Used](#ai-tools-used)
 - [Known Limitations](#known-limitations)
 
@@ -215,6 +217,65 @@ The project is deployed using a production-ready DevOps pipeline:
 - **Version Control:** Git-based workflow integrated with GitLab for seamless collaboration and deployment  
 
 This architecture enables efficient delivery, reproducibility, and streamlined deployments.
+
+---
+
+## API Endpoints
+
+### Authentication
+| Method | Endpoint                    | Description                  |
+|--------|-----------------------------|------------------------------|
+| POST   | `/api/auth/register`        | Register & send OTP          |
+| POST   | `/api/auth/verify-otp`      | Verify OTP & create account  |
+| POST   | `/api/auth/login`           | Login & set JWT cookie       |
+
+### Documents
+| Method | Endpoint                         | Description              |
+|--------|----------------------------------|--------------------------|
+| POST   | `/api/documents`                 | Create document          |
+| GET    | `/api/documents`                 | List user's documents    |
+| GET    | `/api/documents/:documentId`     | Get document detail      |
+| PUT    | `/api/documents/:documentId`     | Update document title    |
+
+### Members
+| Method | Endpoint                                         | Description            |
+|--------|--------------------------------------------------|------------------------|
+| GET    | `/api/members/:documentId`                       | List document members  |
+| POST   | `/api/members/:documentId/invite`                | Send email invitation  |
+| PUT    | `/api/members/:documentId/:memberId/role`        | Update member role     |
+| DELETE | `/api/members/:documentId/:memberId`             | Remove member          |
+
+### Comments
+| Method | Endpoint                                                | Description        |
+|--------|---------------------------------------------------------|--------------------|
+| GET    | `/api/comments/:documentId`                             | List comments      |
+| POST   | `/api/comments/:documentId`                             | Add comment        |
+| POST   | `/api/comments/:documentId/:commentId/reply`            | Reply to comment   |
+| PUT    | `/api/comments/:documentId/:commentId/resolve`          | Resolve comment    |
+
+### History
+| Method | Endpoint                                              | Description          |
+|--------|-------------------------------------------------------|----------------------|
+| GET    | `/api/history/:documentId`                            | List version history |
+| POST   | `/api/history/:documentId/:historyId/restore`         | Restore a version    |
+
+### Sharing
+| Method | Endpoint                                  | Description            |
+|--------|-------------------------------------------|------------------------|
+| POST   | `/api/share/:documentId/generate`         | Generate share link    |
+| POST   | `/api/share/join`                         | Join via share token   |
+
+### Invitations
+| Method | Endpoint                                    | Description              |
+|--------|---------------------------------------------|--------------------------|
+| GET    | `/api/invitations/pending`                  | List pending invitations |
+| POST   | `/api/invitations/:invitationId/accept`     | Accept invitation        |
+| POST   | `/api/invitations/:invitationId/decline`    | Decline invitation       |
+
+### Activity
+| Method | Endpoint                        | Description          |
+|--------|---------------------------------|----------------------|
+| GET    | `/api/activity/:documentId`     | Get activity log     |
 
 ---
 
