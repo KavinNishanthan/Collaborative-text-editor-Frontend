@@ -38,7 +38,7 @@ Repo URL:--> [https://github.com/KavinNishanthan/Collaborative-text-editor-Backe
 
 ## Features
 
-- **Secure Authentication** — Login & register with OTP email verification, JWT session management
+- **Secure Authentication** — Login && Register enables OTP-based email verification, JWT session management, and seamless Sign in with Google for secure, verified, and convenient user access.
 - **Dashboard** — Document list with search, create/rename/delete, role badges (Owner / Editor / Viewer)
 - **Rich Text Editor** — TipTap-powered editor with bold, italic, strikethrough, highlight, headings (H1/H2), bullet/ordered lists, blockquotes, horizontal rules, and text alignment
 - **Real-Time Collaboration** — Yjs CRDT over custom Socket.IO provider for conflict-free multi-user editing
@@ -54,6 +54,8 @@ Repo URL:--> [https://github.com/KavinNishanthan/Collaborative-text-editor-Backe
 ---
 
 ## Architecture Overview
+
+**Frontend**
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -82,6 +84,39 @@ Repo URL:--> [https://github.com/KavinNishanthan/Collaborative-text-editor-Backe
      Comments, History)                auto-save, presence)
 ```
 
+**Backend**
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                        CLIENT (React)                        │
+│  TipTap Editor  ←→  SocketIOProvider  ←→  Yjs CRDT (Y.Doc)   │
+└──────────────┬───────────────────────────────┬───────────────┘
+               │  REST API (Axios)             │  WebSocket (Socket.IO)
+               ▼                               ▼
+┌────────────────────────────────────────────────────────────────┐
+│                    BACKEND (Node.js / Express)                 │
+│                                                                │
+│  ┌─────────────┐  ┌──────────────┐  ┌───────────────────────┐  │
+│  │  REST API   │  │  Socket.IO   │  │  In-Memory Y.Doc      │  │
+│  │  Routes &   │  │  Server      │  │  Map (per document)   │  │
+│  │  Controllers│  │  (Real-Time) │  │                       │  │
+│  └──────┬──────┘  └──────┬───────┘  └──────────┬────────────┘  │
+│         │                │                     │               │
+│         ▼                ▼                     ▼               │
+│    ┌──────────────────────────────────────────────────────┐    │
+│    │                  MongoDB (Mongoose)                  │    │
+│    │  Users | Documents | Members | History | Comments    │    │
+│    │  Activity Logs | Invitations | OTPs                  │    │
+│    └──────────────────────────────────────────────────────┘    │
+│                                                                │
+│      ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│      │  JWT Auth    │  │  Nodemailer  │  │  Joi         │      │
+│      │  Middleware  │  │  SMTP Emails │  │  Validation  │      │
+│      └──────────────┘  └──────────────┘  └──────────────┘      │
+└────────────────────────────────────────────────────────────────┘
+```
+---
+
 ### Real-Time Editing Flow
 
 1. User opens a document → creates a `Y.Doc` + `SocketIOProvider`
@@ -96,7 +131,7 @@ Repo URL:--> [https://github.com/KavinNishanthan/Collaborative-text-editor-Backe
 
 ## Tech Stack
 
-**FRontend:**
+**Frontend:**
 
 | Layer          | Technology                                                              |
 |----------------|-------------------------------------------------------------------------|
@@ -356,13 +391,20 @@ See [`.gitlab-ci.yml`](.gitlab-ci.yml) for full pipeline configuration.
 
 This architecture enables efficient delivery, reproducibility, and streamlined deployments.
 
-Frontend ci/cd
+**Frontend ci/cd**
 
 <img width="1512" height="982" alt="Screenshot 2026-04-04 at 11 59 33 PM" src="https://github.com/user-attachments/assets/fe08c80c-669a-41f1-967a-6243869708b6" />
 
-Backend ci/cd
+
+**Backend ci/cd**
+
 
 <img width="1512" height="982" alt="Screenshot 2026-04-05 at 12 02 08 AM" src="https://github.com/user-attachments/assets/0e0ebbd5-b593-4861-88e5-01c594b65a76" />
+
+**AWS EC2 Instance** 
+
+![Screenshot 2026-04-05 at 2 29 33 PM](https://github.com/user-attachments/assets/2c722c2a-ca58-4ae8-82cd-9a252e70865b)
+
 
 ---
 
