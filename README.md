@@ -8,6 +8,8 @@ A real-time collaborative text editor frontend with Google Docs-like editing exp
 
 Live App: --> [http://16.176.171.124/login](http://16.176.171.124/login) 
 
+![Screenshot 2026-04-05 at 1 41 06 PM](https://github.com/user-attachments/assets/653107e8-ee6d-4adc-9ecc-e99576e3a7e7)
+
 ---
 
 # Backend Repo URL 
