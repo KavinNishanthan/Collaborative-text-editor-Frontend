@@ -499,6 +499,32 @@ This architecture enables efficient delivery, reproducibility, and streamlined d
 - **Cursor Cleanup** — Remote cursors may briefly persist after a user disconnects (cleared on next awareness cycle)
 - **No Mobile Editor Toolbar** — The rich text toolbar is not optimized for small mobile screens
 - **Share Link Role** — Share links always grant viewer access; role-specific links are not supported
-- **No Image/File Uploads** — The editor supports text formatting only; media embedding is not implemented
+- **No Image/1File Uploads** — The editor supports text formatting only; media embedding is not implemented
 - **Browser Support** — Tested on Chrome and Firefox; Safari WebSocket support may vary
+
+## Screenshots :
+**OTP Verification while Register :** 
+
+![Screenshot 2026-04-05 at 4 54 30 PM](https://github.com/user-attachments/assets/2cfd2d89-9403-4952-980e-056b1e69bf56)
+![Screenshot 2026-04-05 at 4 50 19 PM](https://github.com/user-attachments/assets/a888b64d-9f13-424c-bbe3-5c2f233643bd)
+---
+**Live Cursors & Presence :** 
+![Screenshot 2026-04-05 at 4 36 05 PM](https://github.com/user-attachments/assets/a9d6462e-fdd7-474a-9f04-c5738c742fde)
+---
+**Version History :**
+![Screenshot 2026-04-05 at 4 36 34 PM](https://github.com/user-attachments/assets/17a58e03-cf28-4640-908b-6ee571548e36)
+---
+**Member Management :**
+![Screenshot 2026-04-05 at 4 37 23 PM](https://github.com/user-attachments/assets/8ae8bbf1-b152-4591-94d2-067fdcddc66a)
+---
+**Comment Highlighting :**
+![Screenshot 2026-04-05 at 4 37 10 PM](https://github.com/user-attachments/assets/9f49b567-f65f-42ed-84f2-0225c8cb51b6)
+---
+**Document Sharing :**
+(Either we can share Link or we can invite via Email)
+![Screenshot 2026-04-05 at 4 37 30 PM](https://github.com/user-attachments/assets/5014611d-6504-47a1-a72e-393be6c1c3a7)
+![Screenshot 2026-04-05 at 4 37 42 PM](https://github.com/user-attachments/assets/567a672b-507b-4ea6-b49d-ec96daaf6183)
+![Screenshot 2026-04-05 at 4 50 56 PM](https://github.com/user-attachments/assets/f6e5b882-07c1-4ed0-b4fd-e800b872419b)
+
+---
 
