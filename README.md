@@ -6,8 +6,7 @@ A real-time collaborative text editor frontend with Google Docs-like editing exp
 
 # Live URL 
 
-Live App: --> [http://16.176.171.124/login](http://16.176.171.124/login) <img width="1512" height="982" alt="Screenshot 2026-04-04 at 10 02 21 PM" src="https://github.com/user-attachments/assets/1f4f8dbe-c650-4ed6-82be-01ec63ab5072" />
-
+Live App: --> [http://16.176.171.124/login](http://16.176.171.124/login) 
 
 ---
 
