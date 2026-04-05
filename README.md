@@ -96,6 +96,8 @@ Repo URL:--> [https://github.com/KavinNishanthan/Collaborative-text-editor-Backe
 
 ## Tech Stack
 
+**FRontend:**
+
 | Layer          | Technology                                                              |
 |----------------|-------------------------------------------------------------------------|
 | **Framework**  | React 19                                                                |
@@ -111,48 +113,107 @@ Repo URL:--> [https://github.com/KavinNishanthan/Collaborative-text-editor-Backe
 | **Container**  | Docker (Nginx-based production build)                                   |
 | **CI/CD**      | GitLab CI/CD                                                            |
 
+**Backend:**
+
+| Layer          | Technology                                                                |
+|----------------|---------------------------------------------------------------------------|
+| **Runtime**    | Node.js 20                                                                |
+| **Framework**  | Express 5                                                                 |
+| **Language**   | TypeScript 5                                                              |
+| **Database**   | MongoDB Atlas (via Mongoose)                                              |
+| **Real-Time**  | Socket.IO 4                                                               |
+| **CRDT**       | Yjs + y-protocols (awareness)                                             |
+| **Auth**       | JWT (jsonwebtoken) + bcryptjs                                             |
+| **Validation** | Joi                                                                       |
+| **Email**      | Nodemailer (Gmail SMTP)                                                   |
+| **Container**  | Docker (multi-stage build, node:20-alpine)                                |
+| **CI/CD**      | GitLab CI/CD (build → Docker push to ECR → deploy to EC2)                 |
+
 ---
 
 ## Project Structure
 
+**Frontend:**
 ```
 src/
-├── main.tsx                    # React DOM entry point
-├── App.tsx                     # Router configuration (public/protected routes)
-├── index.css                   # Global styles & Tailwind directives
+├── main.tsx                    
+├── App.tsx                     
+├── index.css                 
 │
 ├── Pages/
-│   ├── LoginPage/              # Email & password login form
-│   ├── RegisterPage/           # Registration with OTP verification flow
-│   └── DashboardPage/          # Main app: document list + editor + sidebar panels
+│   ├── LoginPage/            
+│   ├── RegisterPage/
+│   └── DashboardPage/         
 │
 ├── components/
-│   ├── Editor.tsx              # TipTap editor wrapper (standalone route)
-│   ├── Join.tsx                # Share link join handler
-│   ├── ShareLinkPanel.tsx      # Modal for generating & copying share links
+│   ├── Editor.tsx            
+│   ├── Join.tsx                
+│   ├── ShareLinkPanel.tsx      
 │   └── sidebar/
-│       ├── ActivityPanel.tsx   # Activity log timeline
-│       ├── CommentsPanel.tsx   # Threaded comments with resolve
-│       ├── HistoryPanel.tsx    # Version history with preview & restore
-│       └── MembersPanel.tsx    # Member list, invite by email, role management
+│       ├── ActivityPanel.tsx  
+│       ├── CommentsPanel.tsx   
+│       ├── HistoryPanel.tsx   
+│       └── MembersPanel.tsx    
 │
 ├── lib/
-│   ├── SocketIOProvider.ts     # Custom Yjs provider over Socket.IO
-│   └── CollabCursor.ts         # TipTap extension for collaborative cursors
+│   ├── SocketIOProvider.ts     
+│   └── CollabCursor.ts        
 │
-├── api/                        # Axios API layer (auth, documents, members, etc.)
+├── api/                        
 ├── Store/
-│   └── useAuthStore.ts         # Zustand store for auth state
+│   └── useAuthStore.ts        
 ├── Router/
-│   └── ProtectedRoute.tsx      # Auth guard for protected routes
-├── interface/                  # TypeScript type definitions
-└── Utils/                      # Utility functions (formatDate, getInitials, etc.)
+│   └── ProtectedRoute.tsx     
+├── interface/                
+└── Utils/                      
 ```
+
+**Backend**
+```
+src/
+├── index.ts                  
+├── configs/
+│   ├── mongoose.config.ts    
+│   └── socket.config.ts      
+├── constants/
+│   ├── http-message.constant.ts
+│   └── response-message.constant.ts
+├── controllers/
+│   ├── auth.controller.ts   
+│   ├── document.controller.ts
+│   ├── member.controller.ts  
+│   ├── comment.controller.ts 
+│   ├── history.controller.ts 
+│   ├── sharing.controller.ts 
+│   ├── invitation.controller.ts 
+│   └── activity.controller.ts
+├── helpers/
+│   ├── cookie.helper.ts     
+│   ├── mail.helper.ts       
+│   ├── otp.helper.ts       
+│   ├── profile-colour.helper.ts 
+│   └── uuid.helper.ts       
+├── interfaces/              
+├── middlewares/              
+├── models/
+│   ├── user.model.ts
+│   ├── document.model.ts
+│   ├── document-member.model.ts
+│   ├── document-history.model.ts
+│   ├── comment.model.ts
+│   ├── invitation.model.ts
+│   ├── activity-log.model.ts
+│   └── otp.model.ts
+├── routes/                   
+├── types/                  
+└── utils/             
+```
+
 ---
 
 ## Setup Instructions
 
-### Prerequisites
+### Prerequisites (Frontend)
 
 - **Node.js** v20+
 - **npm** v9+
@@ -201,25 +262,97 @@ docker build -t collabedit-frontend .
 docker run -p 80:80 collabedit-frontend
 ```
 
+### Prerequisites (Backend)
+
+- **Node.js** v20+
+- **npm** v9+
+- **MongoDB** instance (local or [MongoDB Atlas](https://www.mongodb.com/atlas))
+- **Gmail account** with [App Password](https://support.google.com/accounts/answer/185833) for SMTP
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/KavinNishanthan/Collaborative-text-editor-Backend.git
+cd Collaborative-text-editor-Backend
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure Environment Variables
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` with your values (see [Environment Variables](#environment-variables) below).
+
+### 4. Run in Development Mode
+
+```bash
+npm run dev
+```
+
+This runs the TypeScript compiler in watch mode and Nodemon concurrently. The server starts on `http://localhost:8080`.
+
+### 5. Build for Production
+
+```bash
+npm run build
+npm start
+```
+
+### 6. Run with Docker
+
+```bash
+docker build -t collabedit-backend .
+docker run -p 8080:8080 --env-file .env collabedit-backend
+```
+
 ---
 
+
 ## Environment Variables
+
+**Frontrnd:**
 
 | Variable          | Description                    | Example                       |
 |-------------------|--------------------------------|-------------------------------|
 | `VITE_BASE_URL`   | Backend REST API base URL      | `http://localhost:8080/api`   |
 | `VITE_SOCKET_URL` | Backend Socket.IO server URL   | `http://localhost:8080`       |
 
+**Backend:**
+
+| Variable        | Description                                  | Example                                     |
+|-----------------|----------------------------------------------|---------------------------------------------|
+| `NODE_ENV`      | Environment mode                             | `development` / `production`                |
+| `PORT`          | Server port                                  | `8080`                                      |
+| `MONGOURI`      | MongoDB connection string                    | `mongodb+srv://user:pass@cluster/dbname`    |
+| `CORS_ORIGIN`   | Allowed origins (comma-separated)            | `http://localhost:5173,https://example.com` |
+| `CLIENT_URL`    | Frontend URL (for email links)               | `http://localhost:5173`                     |
+| `JWT_SECRET`    | Secret key for JWT signing                   | `your_jwt_secret_here`                      |
+| `SMTP_MAIL`     | Gmail address for sending emails             | `your_email@gmail.com`                      |
+| `SMTP_PASSWORD` | Gmail App Password                           | `xxxx xxxx xxxx xxxx`                       |
+
 ---
 
 ## Deployment
 
-The project is deployed using a production-ready DevOps pipeline:
+The application is containerized with Docker and deployed via a GitLab CI/CD pipeline:
+
+1. **Build Stage** — TypeScript compilation (`npm run build`)
+2. **Docker Stage** — Multi-stage Docker build, push to AWS ECR
+3. **Deploy Stage** — SSH into EC2 instance, pull latest image, run container with environment variables
+
+See [`.gitlab-ci.yml`](.gitlab-ci.yml) for full pipeline configuration. 
 
 - **AWS:** Frontend and backend services are hosted on AWS
 - **Docker:** Application services are containerized for consistency across development and production environments  
 - **GitLab CI/CD:** Automated pipelines handle build, testing, and deployment processes  
-- **Version Control:** Git-based workflow integrated with GitLab for seamless collaboration and deployment  
+- **Version Control:** Git-based workflow integrated with GitLab for seamless collaboration and deployment
 
 This architecture enables efficient delivery, reproducibility, and streamlined deployments.
 
